@@ -1,0 +1,17 @@
+{% extends "page.html" %}
+
+{% block page_header %}{% endblock %}
+
+{% block subtitle %}{{ _('Edit Schema')}} {% endblock %}
+
+{% block primary_content_inner %}
+  {% snippet 'base_form.html', schema=schema, data=data, errors=errors %}
+{% endblock %}
+
+{% block main_content %}
+   {{ self.flash() }}
+   {{ self.toolbar() }}
+   <div class="wrapper no-nav">
+     {{ self.primary_content() }}
+   </div>
+{% endblock %}

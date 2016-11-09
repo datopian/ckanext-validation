@@ -1,0 +1,22 @@
+{% extends "page.html" %}
+
+{% block page_header %}{% endblock %}
+
+{% block subtitle %}{{ _('Schemas') }}{% endblock %}
+
+{% block page_primary_action %}
+  {% if h.check_access('ckanext_pages_update', {}) %}
+    {% link_for _('Add Schema'), controller='ckanext.validate.controller:ValidateController', action='schemas_edit', schema='', class_='btn btn-primary', icon='plus-sign-alt' %}
+  {% endif %}
+{% endblock %}
+
+{% block primary_content_inner %}
+  <h1 class="hide-heading">{{ _('Schemas') }}</h1>
+{% snippet 'snippets/schemas_list.html', pages=c.page.items %}
+{% endblock %}
+
+{% block main_content %}
+   <div class="wrapper no-nav">
+     {{ self.primary_content() }}
+   </div>
+{% endblock %}

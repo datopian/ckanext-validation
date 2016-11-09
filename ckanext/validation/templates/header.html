@@ -1,0 +1,10 @@
+{% ckan_extends %}
+
+{% block header_account_logged %}
+  <li>
+    <a href="{{ h.url_for('schemas_show') }}" title="{{ _('Schemas') }}">
+      <i class="icon-filter"></i>
+    </a>
+  </li>
+  {{ super() }}
+{% endblock %}
