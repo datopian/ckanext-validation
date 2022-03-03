@@ -148,6 +148,7 @@ to create the database tables:
         return self._process_schema_fields(data_dict)
 
     resources_to_validate = {}
+    packages_to_skip = {}
 
     def after_create(self, context, data_dict):
 
@@ -185,6 +186,7 @@ to create the database tables:
     def before_update(self, context, current_resource, updated_resource):
 
         updated_resource = self._process_schema_fields(updated_resource)
+        self.packages_to_skip[updated_resource['package_id']] = True
 
         if not get_update_mode_from_config() == u'async':
             return updated_resource
@@ -227,6 +229,10 @@ to create the database tables:
 
         if data_dict.get(u'resources'):
             # This is a dataset
+            package_id = data_dict.get('id')
+            if package_id in self.packages_to_skip:
+                del self.packages_to_skip[package_id]
+                return
             for resource in data_dict[u'resources']:
                 if resource[u'id'] in self.resources_to_validate:
                     # This is part of a resource_update call, it will be
