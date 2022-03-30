@@ -184,7 +184,7 @@ to create the database tables:
             # Make sure format is supported
             resource.get(u'format', u'').lower() in
                 settings.SUPPORTED_FORMATS
-                )):
+                ) and not resource.get('last_modified')):
             needs_validation = True
 
         if needs_validation:
