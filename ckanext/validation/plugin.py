@@ -6,6 +6,7 @@ import json
 
 import ckan.plugins as p
 import ckantoolkit as t
+import datetime
 
 from ckanext.validation import settings
 from ckanext.validation.model import tables_exist
@@ -173,6 +174,12 @@ to create the database tables:
             or u'resources' in data_dict
             or data_dict.get(u'type') == u'dataset')
 
+    def _date_diff(self, resource): 
+        # Run validation for datesets updated only in the last 10 minutes
+        if resource.get('last_modified'):
+            return (datetime.datetime.now() - resource.get('last_modified')).total_seconds() < 600
+        return True
+
     def _handle_validation_for_resource(self, context, resource):
         needs_validation = False
         if ((
@@ -184,7 +191,7 @@ to create the database tables:
             # Make sure format is supported
             resource.get(u'format', u'').lower() in
                 settings.SUPPORTED_FORMATS
-                ) and not resource.get('last_modified')):
+                ) and self._date_diff(resource)):
             needs_validation = True
 
         if needs_validation:
