@@ -175,9 +175,9 @@ to create the database tables:
             or data_dict.get(u'type') == u'dataset')
 
     def _date_diff(self, resource): 
-        # Run validation for datesets updated only in the last 10 minutes
+        # Run validation for resources updated only in the last few minutes (5) instead of all res.
         if resource.get('last_modified'):
-            return (datetime.datetime.now() - resource.get('last_modified')).total_seconds() < 600
+            return (datetime.datetime.now() - resource.get('last_modified')).total_seconds() < 300
         return True
 
     def _handle_validation_for_resource(self, context, resource):
